@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head prefix="foaf: http://xmlns.com/foaf/0.1/">
+  <!--Make title shorter-->
+  <title>How to speedup queries with filters using TREE hypermedia</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="node_modules/shower-material/styles/styles.css">
+  <link rel="stylesheet" href="styles/comunica-custom.css" />
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css' />
+
+  <link rel="foaf:maker" href="https://www.rubensworks.net/#me" />
+
+  <style>
+    .shower {
+      --slide-ratio: calc(16 / 9);
+    }
+  </style>
+</head>
+
+<body class="shower list"
+  prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# foaf: http://xmlns.com/foaf/0.1/ owl: http://www.w3.org/2002/07/owl# xsd: http://www.w3.org/2001/XMLSchema# org: http://www.w3.org/ns/org# schema: http://schema.org/ cite: http://purl.org/spar/cito/"
+  typeof="schema:PresentationDigitalDocument"><script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.24.7'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+  <header class="caption">
+    <div class="title">
+      <h1 property="schema:name">How to speedup queries with filters using TREE hypermedia</h1>
+    </div>
+    <div class="captiondata">
+      <p class="author" rel="schema:author"><a href="https://github.com/constraintAutomaton">Bryan-Elliott Tam</a></p>
+      <p class="venue">
+        <a href="https://www.uhasselt.be/knowledge_graphs_kg4di">Knowledge Graphs for Data Integration</a>, <span
+          rel="schema:datePublished">07 June 2023</span></a>
+      </p>
+    </div>
+  </header>
+
+  <section id="connection-point" class="slide" inlist="" rel="schema:hasPart" resource="#connection-point">
+    <h2 property="schema:name" class="big" style="margin-top: 20px">An tradeof between client a server cost for SPARQL
+      interface</h2>
+    <img src="img/linked-data Fragments.png" alt="Linked data fragment" width="100%" />
+    <h3>Can we published static RDF files in a way that will diminish the client cost?</h3>
+  </section>
+
+  <section id="title" class="slide title" inlist="" rel="schema:hasPart" resource="#title">
+    <h2 property="schema:name">How to speedup queries with filters using TREE hypermedia</h2>
+    <ul class="author inline">
+      <li class="current"><a href="https://github.com/constraintAutomaton">Bryan-Elliott Tam</a></li>
+    </ul>
+    <p class="affiliation"><a href="http://idlab.technology/">Ghent University – imec – IDLab, Belgium</a></p>
+  </section>
+
+
+
+  <section id="heterogeneous" class="slide" inlist="" rel="schema:hasPart" resource="#heterogeneous">
+    <h2 property="schema:name">Agenda</h2>
+    <ul>
+      <li>
+        Introducing the TREE specification
+      </li>
+
+      <li>
+        Formalization
+      </li>
+
+      <li>
+        Early benchmark
+      </li>
+
+      <li>
+        Future work
+      </li>
+    </ul>
+  </section>
+
+  <section id="modularity" class="slide" inlist="" rel="schema:hasPart" resource="#modularity">
+    <h2 property="schema:name">Introducing the TREE specification</h2>
+    <div style="display: grid; grid-template-columns: [text] 60% [figure] 40%">
+      <ul>
+        <li><b>Fragmented database over linked data</b></li>
+        <li>
+          Graph
+          <ul>
+            <li>Vertex/Node (<a href="https://treecg.github.io/specification/#Node" target="_blank">tree:Node</a>) are
+              the
+              data container</li>
+            <li>Edge (<a href="https://treecg.github.io/specification/#Relation" target="_blank">tree:Relation</a>)
+              declare a constraint on the data inside a vertex</li>
+          </ul>
+        <li>
+
+          The document can grow over time
+          <ul>
+            <li>
+              We don't maintain a central index
+              <ul>
+                <li>We use Link Traversal Query Processing to fetch the data</li>
+              </ul>
+            </li>
+          </ul>
+
+        </li>
+        </li>
+      </ul>
+
+      <img src="img/tree_schema.drawio.svg" alt="TREE schema simplify" height="60%" />
+    </div>
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">We can traverse the collection to answer our query</h2>
+    <h3>Link Traversal Query Processing</h3>
+    <div style="display: grid; grid-template-columns: [text] 60% [figure] 40%">
+      <img src="img/SPARQL-filter-expression.png" alt="Filter expression" height="40%" />
+      <img src="img/tree_schema_relation.drawio.svg" alt="TREE schema with relation" height="40%" />
+    </div>
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">How can we exploit the relations between our nodes</h2>
+    <h3>Guided Link Traversal Query Processing</h3>
+    <ul>
+      <li>We take advantage of a priori knowledge or meta
+        knowledge (understanding) for the choice of links</li>
+      <li>
+        Structure of a document
+        <ul>
+          <li>Fragmented database</li>
+        </ul>
+      </li>
+      <li>
+        Discovery of knowledge
+        <ul>
+          <li>Relation</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">What is the problem more formally</h2>
+    <div style="display: grid; grid-template-columns: [text] 60% [figure] 40%">
+      <ul>
+        <li>
+          We solve a boolean equation combining
+          <ul>
+            <li>SPARQL filter expression</li>
+            <li>tree:relation expression</li>
+          </ul>
+        </li>
+        <li>On satisfaction of the equation we follow the link</li>
+      </ul>
+      <img src="img/problem_statement.drawio.svg" alt="TREE schema with relation" height="80%" />
+    </div>
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Strategy of resolution</h2>
+    <ul>
+      <li>
+        We calculate the domain of each sub expression and represent it as a set [lower bound, upper bound]
+        <ul>
+          <li>Eg: x>5</li>
+          <li>]5, &infin;[ </li>
+        </ul>
+      </li>
+      <li>We concatenate the expression based on the boolean operator
+        <ul>
+          <li style="display: grid; grid-template-columns: [first] 33% [second] 33% [third] 33%; margin-top: 20px;">
+            <figure>
+              <img src="img/and.png" alt="set operation and" height="70em" />
+              <figcaption>
+                AND
+              </figcaption>
+            </figure>
+
+            <figure>
+              <img src="img/or.png" alt="set operation or" height="70em" />
+              <figcaption>
+                OR
+              </figcaption>
+            </figure>
+
+            <figure>
+              <img src="img/not.png" alt="set operation not" height="70em" />
+              <figcaption>
+                NOT
+              </figcaption>
+            </figure>
+          </li>
+        </ul>
+      </li>
+      <li>The domain is a set of set containing the domain (subdomain) of each expression</li>
+    </ul>
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Benchmarking</h2>
+      <ul>
+        <li>
+          Query engine Comunica
+          <ul>
+            <li>Well tested (test coverage 100%, Have been used in multiple papers)</li>
+            <li>Modular and easily extendable</li>
+          </ul>
+        </li>
+      </ul>
+
+      <center>
+        <img src="img/comunica_red.svg" alt="Comunica Logo" width="250px" />
+        <h3 style="margin-top: 0px;"><a href="https://comunica.dev/">https://comunica.dev/</a></h3>
+      </center>
+  </section>
+
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Benchmarking</h2>
+    <ul>
+      <li>
+        Data
+        <ul>
+          <li>
+            Time series, public transportation
+          </li>
+          <li>
+            Local, online
+          </li>
+        </ul>
+      </li>
+      <li>
+        Different topologies
+        <ul>
+          <li>
+            B-tree like structure
+          </li>
+          <li>
+            Link list
+          </li>
+        </ul>
+      </li>
+      <li>
+      </li>
+      <li>
+        Parameters evaluated
+        <ul>
+          <li>Number of requests</li>
+          <li>Query execution time</li>
+          <li>Number of results</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Future work</h2>
+      <ul>
+        <li>
+         Benchmarking of the query clients
+        </li>
+
+        <li>
+          Support for string
+         </li>
+
+         <li>
+          Support for geolocatization data
+         </li>
+
+         <li>
+          Selection of views (Selection of TREE fragmentation)
+         </li>
+      </ul>
+
+  </section>
+
+
+  <footer>
+    <p class="license">
+      &#169; <span property="schema:copyrightYear">2023</span> <a href="https://www.rubensworks.net"
+        rel="schema:copyrightHolder"><span resource="https://github.com/constraintAutomaton">Bryan-Elliott Tam</span>
+    </p>
+
+  </footer>
+
+  <script src="node_modules/shower-core/shower.min.js"></script>
+</body>
+
+</html>
