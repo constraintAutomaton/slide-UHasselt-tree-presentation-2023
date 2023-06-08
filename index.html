@@ -23,7 +23,8 @@
 
 <body class="shower list"
   prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# foaf: http://xmlns.com/foaf/0.1/ owl: http://www.w3.org/2002/07/owl# xsd: http://www.w3.org/2001/XMLSchema# org: http://www.w3.org/ns/org# schema: http://schema.org/ cite: http://purl.org/spar/cito/"
-  typeof="schema:PresentationDigitalDocument"><script id="__bs_script__">//<![CDATA[
+  typeof="schema:PresentationDigitalDocument">
+  <script id="__bs_script__">//<![CDATA[
     document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.24.7'><\/script>".replace("HOST", location.hostname));
 //]]></script>
 
@@ -201,20 +202,20 @@
 
   <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
     <h2 property="schema:name">Benchmarking</h2>
-      <ul>
-        <li>
-          Query engine Comunica
-          <ul>
-            <li>Well tested (test coverage 100%, Have been used in multiple papers)</li>
-            <li>Modular and easily extendable</li>
-          </ul>
-        </li>
-      </ul>
+    <ul>
+      <li>
+        Query engine Comunica
+        <ul>
+          <li>Well tested (test coverage 100%, Have been used in multiple papers)</li>
+          <li>Modular and easily extendable</li>
+        </ul>
+      </li>
+    </ul>
 
-      <center>
-        <img src="img/comunica_red.svg" alt="Comunica Logo" width="250px" />
-        <h3 style="margin-top: 0px;"><a href="https://comunica.dev/">https://comunica.dev/</a></h3>
-      </center>
+    <center>
+      <img src="img/comunica_red.svg" alt="Comunica Logo" width="250px" />
+      <h3 style="margin-top: 0px;"><a href="https://comunica.dev/">https://comunica.dev/</a></h3>
+    </center>
   </section>
 
 
@@ -256,27 +257,99 @@
     </ul>
   </section>
 
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Benchmark result remarks</h2>
+    <p>
+      In the following slide we are comparing with a policy where we follow every link of the RDF document.
+    </p>
+  </section>
+
+
 
 
   <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Early result filter expression do not discriminate</h2>
+
+    <table>
+
+      <tr>
+        <td>&nbsp;</td>
+        <td>Follow TREE</td>
+        <td>Follow TREE Guided</td>
+      </tr>
+
+      <tr>
+        <td>% reduction execution time</td>
+        <td>29.3</td>
+        <td>29.9</td>
+      </tr>
+
+      <tr>
+        <td>% reduction number request</td>
+        <td>98.9</td>
+        <td>98.9</td>
+      </tr>
+
+
+    </table>
+
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <figure class="margin width" style="display: flex; align-items: center;
+    justify-content: center;">
+      <img src="img/graph.svg" alt="TREE benchmark topology"  style="position: ab;" width="20%" />
+    </figure>
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
+    <h2 property="schema:name">Early result filter expression keep on branch</h2>
+
+    <table>
+
+      <tr>
+        <td>&nbsp;</td>
+        <td>Follow TREE</td>
+        <td>Follow TREE Guided</td>
+      </tr>
+
+      <tr>
+        <td>% reduction execution time</td>
+        <td>40.8</td>
+        <td>66.4</td>
+      </tr>
+
+      <tr>
+        <td>% reduction number request</td>
+        <td>99.7</td>
+        <td>99.1</td>
+      </tr>
+    </table>
+
+    <img src="img/filter_one.svg" style="margin: auto;" alt="TREE benchmark topology" height="47%" />
+
+  </section>
+
+  <section id="open" class="slide" inlist="" rel="schema:hasPart" resource="#open">
     <h2 property="schema:name">Future work</h2>
-      <ul>
-        <li>
-         Benchmarking of the query clients
-        </li>
+    <h3>Future work</h3>
+    <ul>
+      <li>
+        Benchmarking of the query clients
+      </li>
 
-        <li>
-          Support for string
-         </li>
+      <li>
+        Support for string
+      </li>
 
-         <li>
-          Support for geolocatization data
-         </li>
+      <li>
+        Support for geolocatization data
+      </li>
 
-         <li>
-          Selection of views (Selection of TREE fragmentation)
-         </li>
-      </ul>
+      <li>
+        Selection of views (Selection of TREE fragmentation)
+      </li>
+    </ul>
 
   </section>
 
